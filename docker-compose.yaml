@@ -1,0 +1,31 @@
+services:
+
+  ollama:
+    image: ollama/ollama:${OLLAMA_VERSION:-latest}
+    extends:
+      file: hardware-acceleration.yaml
+      service: ${HARDWARE_ACCELERATION:-cpu}
+    env_file: environment.d/ollama.env
+    ports:
+      - ${OLLAMA_PORT:-11434}:11434
+    volumes:
+      - ${OLLAMA_DATA_VOLUME:-ollama-data}:/root/.ollama
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+  watchtower:
+    image: nickfedor/watchtower:${WATCHTOWER_VERSION:-latest}
+    env_file: environment.d/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+volumes:
+   ollama-data: {}
