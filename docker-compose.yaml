@@ -15,6 +15,21 @@ services:
       com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
 
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_VERSION:-main}
+    env_file: environment.d/ollama.env
+    environment:
+      OLLAMA_BASE_URLS: http://ollama:11434
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+    ports:
+      - ${OPEN_WEBUI_PORT:-8080}:8080
+    volumes:
+      - ${OPEN_WEBUI_DATA_VOLUME:-open-webui-data}:/app/backend/data
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
   watchtower:
     image: nickfedor/watchtower:${WATCHTOWER_VERSION:-latest}
     env_file: environment.d/watchtower.env
@@ -29,3 +44,4 @@ services:
 
 volumes:
    ollama-data: {}
+   open-webui-data: {}
