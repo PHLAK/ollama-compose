@@ -3,9 +3,12 @@ services:
 
   amd:
     devices: [/dev/dri:/dev/dri, /dev/kfd:/dev/kfd]
-    
+
   intel:
     devices: [/dev/dri:/dev/dri]
+
+  nvidia:
+    gpus: all
 
   vulkan:
     devices: [/dev/dri:/dev/dri, /dev/kfd:/dev/kfd]
