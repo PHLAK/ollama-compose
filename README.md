@@ -10,7 +10,7 @@ Installation
 
   1. Clone the repository
 
-         git clone git@github.com:PHLAK/ollama-compose.git
+          git clone https://github.com/PHLAK/ollama-compose.git
 
   2. Initialize the configuration files
 
@@ -26,6 +26,17 @@ Installation
 
   6. Run `docker compose up -d` to start the containers
 
+Configuration
+-------------
+
+Your installation can be configured by defining environment variables in the
+`environment.d/*.env` files. Reference the documentation for the individual
+apps for available environment variables and their purpose.
+
+> [!IMPORTANT]
+> After modifying files in `environment.d` you must restart your containers
+> (i.e. `docker compose up -d`) for the changes to apply.
+
 Updating
 --------
 
@@ -35,7 +46,7 @@ Updating
 
   2. If necessary, initialize new configuration files
 
-         make config
+         make init
 
   3. Pull new images and restart containers
 
